@@ -39,6 +39,7 @@ void loop() {
     double humidity = doc["main"]["humidity"];
     for(int i=0;i<weather.length();i++){
      if(weather[i]!=' ') weatherfix+=weather[i];
+     else if(weather[i]==' ')weatherfix+="%20";
       }
      Serial.print("*** ");
     Serial.print(location);
@@ -52,7 +53,7 @@ void loop() {
     Serial.print(humidity);
     Serial.println("%");
     Serial.println("--------------------"); 
-    
+   
   ClientRequest(String(weatherfix), String(temp - 273), String(humidity));  //Client傳送資料
   
   delay(3000);
@@ -116,7 +117,7 @@ void ClientRequest(String value1, String value2, String value3){
     String url = "/trigger/" + String(event) + "/with/key/" + String(apiKey);
     //Query String
     url += "?value1=" + value1 + "&value2=" + value2+ "&value3=" + value3;
-
+ Serial.println(host+url);
     //Client傳送
     client.println(String("POST ") + url + " HTTP/1.1");
     client.println(String("Host: ") + host); 
